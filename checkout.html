@@ -1,0 +1,76 @@
+<div class="user">
+    <?php
+    session_start();
+     
+    if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+        header("location: login.php");
+        exit;
+    }
+    ?>
+
+
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Payment</title>
+  <link rel="stylesheet" href="style4.css">
+
+</head>
+<body>
+<div class="container">
+
+        <form action="#">
+
+            <div class="row">
+
+                <div class="col">
+                    <h3 class="title">Check out</h3>
+
+                    
+
+                    <div class="inputBox">
+                        <label for="email"></label>
+                        <input type="text" id="email" placeholder="Enter email account" required>
+                    </div>
+
+                    <div class="inputBox">
+                        <label for="phone number"></label>
+                        <input type="text" id="Phone" placeholder="Phone number:" required>
+                    </div>
+                    
+                    <div class="inputBox">
+                        <label for="phone number"></label>
+                        <input type="text" id="address" placeholder="Address" required>
+                    </div>
+
+                    <div class="col">
+                        <h3 class="title">Payment</h3>
+    
+                        </div>
+                        <div class="inputBox">
+                            <label for="payment"></label>
+                            <select name="payment" id="payment">
+                                <option value="Gcash">Gcash</option>
+                                <option value="Cash on delivery">Cash on delivery</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="col">
+                    
+                    <div class="flex">
+                    
+            </div>
+
+            <input type="submit" value="Checkout" class="submit_btn">
+            <br>
+            <input type="submit" href="cart.php" value="Back" class="submit_btn">
+        </form>
+
+    </div>
+
+</body>
+</html>

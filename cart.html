@@ -1,0 +1,70 @@
+<div class="cart-display">
+<link rel="stylesheet" href="cartstyle.css">
+<?php
+session_start(); 
+
+if (!isset($_SESSION['cart'])) {
+    $_SESSION['cart'] = array();
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['Add_To_Cart'])) {
+    $product_id = $_POST['product_id'];
+    $product_name = $_POST['product_name'];
+    $product_price = floatval($_POST['product_price']); 
+    $product_image = $_POST['product_image'];
+
+    $cart_item_id = uniqid();
+
+    $_SESSION['cart'][$cart_item_id] = array(
+        'id' => $product_id,
+        'name' => $product_name,
+        'price' => $product_price,
+        'image' => $product_image
+    );
+
+    echo "Product added to cart!";
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['Delete_From_Cart'])) {
+    $cart_item_id = $_POST['cart_item_id'];
+    
+    if (isset($_SESSION['cart'][$cart_item_id])) {
+        unset($_SESSION['cart'][$cart_item_id]);
+    }
+}
+
+if (!empty($_SESSION['cart'])) {
+    $total_price = 0;
+    echo "<div class='cart-display'>";
+    echo "<h3>Your Cart</h3>";
+    foreach ($_SESSION['cart'] as $cart_item_id => $product) {
+        $total_price += $product['price'];
+        echo "<div class='cart-item'>";
+        echo "<img src='" . $product['image'] . "' alt='product_image' class='cart-img'>";
+        echo "<p>" . $product['name'] . " - ₱" . $product['price'] . "</p>";
+        echo '<form method="POST" action="cart.php">';
+        echo '<input type="hidden" name="cart_item_id" value="' . $cart_item_id . '">';
+        echo '<button type="submit" name="Delete_From_Cart">Delete</button>';
+        echo '</form>';
+        echo "</div>";
+    }
+    echo "<p class='total'>Total: ₱" . $total_price . "</p>";
+    echo "</div>";
+} else {
+    echo "<p>Your cart is empty.</p>";
+}
+?>
+
+<form action="welcome.php" method="POST">
+    <a href="#sellers">
+    <button type="submit">Order More</button>
+    </a>
+    
+</form>
+
+<form action="checkout.php" method="POST">
+    <a href="#sellers">
+    <button type="submit">Checkout</button>
+    </a>
+    
+</form>
